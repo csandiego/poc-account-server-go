@@ -50,7 +50,7 @@ func TestGivenValidUserProfileWhenInsertedThenAddToDatabase(t *testing.T) {
                 t.Fatal(err)
         }
         profile := data.UserProfile{FirstName: "First", LastName: "Last", DateOfBirth: time.Now()}
-        result, err := dao.insert(tx, &profile)
+        result, err := dao.insert(tx, profile)
         if err != nil {
                 t.Error(err)
         }
@@ -90,7 +90,7 @@ func TestGivenValidUserProfileWhenUpdateThenUpdateDatabase(t *testing.T) {
         if err != nil {
                 t.Fatal(err)
         }
-        result, err := dao.update(tx, &editedProfile)
+        result, err := dao.update(tx, editedProfile)
         if err != nil {
                 t.Error(err)
         }
