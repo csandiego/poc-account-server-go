@@ -7,13 +7,13 @@ import (
 type testUserCredentialDao struct {
 	emailExists    bool
 	emailExistsErr error
-	insertErr      error
+	createErr      error
 }
 
 func (dao *testUserCredentialDao) EmailExists(string) (bool, error) {
 	return dao.emailExists, dao.emailExistsErr
 }
 
-func (dao *testUserCredentialDao) Insert(data.UserCredential) error {
-	return dao.insertErr
+func (dao *testUserCredentialDao) Create(data.UserCredential) error {
+	return dao.createErr
 }

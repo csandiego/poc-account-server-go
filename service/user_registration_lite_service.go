@@ -19,5 +19,5 @@ func (service *UserRegistrationLiteService) Validate(email string) (bool, error)
 }
 
 func (service *UserRegistrationLiteService) Register(credential data.UserCredential) error {
-	return service.dao.Insert(credential)
+	return service.dao.Create(credential)
 }
