@@ -2,7 +2,7 @@ package dao
 
 import (
         "database/sql"
-        "github.com/csandiego/user-account-server/data"
+        "github.com/csandiego/poc-account-server/data"
 )
 
 type DefaultUserProfileDao struct {

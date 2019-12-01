@@ -3,7 +3,7 @@ package dao
 import (
         "fmt"
         "github.com/alicebob/miniredis"
-        "github.com/csandiego/user-account-server/data"
+        "github.com/csandiego/poc-account-server/data"
         "github.com/gomodule/redigo/redis"
         "strconv"
         "testing"

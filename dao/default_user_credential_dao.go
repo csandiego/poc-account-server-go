@@ -2,7 +2,7 @@ package dao
 
 import (
         "fmt"
-        "github.com/csandiego/user-account-server/data"
+        "github.com/csandiego/poc-account-server/data"
         "github.com/gomodule/redigo/redis"
 )
 
