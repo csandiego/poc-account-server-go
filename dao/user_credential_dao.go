@@ -7,4 +7,5 @@ import (
 type UserCredentialDao interface {
 	EmailExists(string) (bool, error)
 	Create(data.UserCredential) error
+	Authenticate(data.UserCredential) (int, error)
 }

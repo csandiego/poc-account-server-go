@@ -7,10 +7,11 @@ import (
 
 type UserRegistrationLiteService struct {
 	dao dao.UserCredentialDao
+	hasher PasswordHasher
 }
 
-func NewUserRegistrationLiteService(dao dao.UserCredentialDao) *UserRegistrationLiteService {
-	return &UserRegistrationLiteService{dao}
+func NewUserRegistrationLiteService(dao dao.UserCredentialDao, hasher PasswordHasher) *UserRegistrationLiteService {
+	return &UserRegistrationLiteService{dao, hasher}
 }
 
 func (service *UserRegistrationLiteService) Validate(email string) (bool, error) {
@@ -19,5 +20,6 @@ func (service *UserRegistrationLiteService) Validate(email string) (bool, error)
 }
 
 func (service *UserRegistrationLiteService) Register(credential data.UserCredential) error {
+	credential.Password = service.hasher.Hash(credential.Password)
 	return service.dao.Create(credential)
 }

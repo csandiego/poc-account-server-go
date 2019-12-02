@@ -1,6 +1,7 @@
 package dao
 
 import (
+	"errors"
 	"fmt"
 	"github.com/csandiego/poc-account-server/data"
 	"github.com/gomodule/redigo/redis"
@@ -11,6 +12,10 @@ const (
 	userCredentialKeyFmt      = "user_credential:%s"
 	userCredentialPasswordKey = "password"
 	userCredentialUserIdKey   = "user_id"
+)
+
+var (
+	ErrPasswordMismatch = errors.New("Passwords do not match")
 )
 
 type DefaultUserCredentialDao struct {
@@ -37,4 +42,26 @@ func (dao *DefaultUserCredentialDao) Create(credential data.UserCredential) erro
 	key := fmt.Sprintf(userCredentialKeyFmt, credential.Email)
 	_, err = conn.Do("HMSET", key, userCredentialPasswordKey, credential.Password, userCredentialUserIdKey, id)
 	return err
+}
+
+type internalUserCredential struct {
+	Password string `redis:"password"`
+	UserId   int    `redis:"user_id"`
+}
+
+func (dao *DefaultUserCredentialDao) Authenticate(credential data.UserCredential) (int, error) {
+	conn := dao.pool.Get()
+	defer conn.Close()
+	reply, err := redis.Values(conn.Do("HGETALL", fmt.Sprintf(userCredentialKeyFmt, credential.Email)))
+	if err != nil {
+		return 0, err
+	}
+	holder := internalUserCredential{}
+	if err = redis.ScanStruct(reply, &holder); err != nil {
+		return 0, err
+	}
+	if credential.Password != holder.Password {
+		return 0, ErrPasswordMismatch
+	}
+	return holder.UserId, nil
 }
