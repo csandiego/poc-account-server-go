@@ -1,4 +1,4 @@
-package dao
+package redigo
 
 import (
 	"errors"
@@ -18,21 +18,21 @@ var (
 	ErrPasswordMismatch = errors.New("Passwords do not match")
 )
 
-type DefaultUserCredentialDao struct {
+type RedigoUserCredentialDao struct {
 	pool *redis.Pool
 }
 
-func NewDefaultUserCredentialDao(pool *redis.Pool) *DefaultUserCredentialDao {
-	return &DefaultUserCredentialDao{pool}
+func NewRedigoUserCredentialDao(pool *redis.Pool) *RedigoUserCredentialDao {
+	return &RedigoUserCredentialDao{pool}
 }
 
-func (dao *DefaultUserCredentialDao) EmailExists(email string) (bool, error) {
+func (dao *RedigoUserCredentialDao) EmailExists(email string) (bool, error) {
 	conn := dao.pool.Get()
 	defer conn.Close()
 	return redis.Bool(conn.Do("EXISTS", fmt.Sprintf(userCredentialKeyFmt, email)))
 }
 
-func (dao *DefaultUserCredentialDao) Create(credential data.UserCredential) error {
+func (dao *RedigoUserCredentialDao) Create(credential data.UserCredential) error {
 	conn := dao.pool.Get()
 	defer conn.Close()
 	id, err := redis.Int(conn.Do("INCR", userIdCounterKey))
@@ -49,7 +49,7 @@ type internalUserCredential struct {
 	UserId   int    `redis:"user_id"`
 }
 
-func (dao *DefaultUserCredentialDao) Authenticate(credential data.UserCredential) (int, error) {
+func (dao *RedigoUserCredentialDao) Authenticate(credential data.UserCredential) (int, error) {
 	conn := dao.pool.Get()
 	defer conn.Close()
 	reply, err := redis.Values(conn.Do("HGETALL", fmt.Sprintf(userCredentialKeyFmt, credential.Email)))
