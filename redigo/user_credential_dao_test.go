@@ -39,7 +39,7 @@ func TestGivenValidUserCredentialWhenRedigoUserCredentialDaoCreateThenIncrementU
 	require.Nil(t, dao.Create(credential))
 	id, err := r.Get(userIdCounterKey)
 	require.Nil(t, err)
-	require.Equal(t, id, "1")
+	require.Equal(t, "1", id)
 }
 
 func TestGivenValidUserCredentialWhenRedigoUserCredentialDaoCreateThenAddToStore(t *testing.T) {
@@ -63,7 +63,7 @@ func TestGivenValidUserCredentialWhenRedigoUserCredentialDaoAuthenticateThenRetu
 	require.Nil(t, err)
 	userId, err := strconv.ParseInt(r.HGet(fmt.Sprintf(userCredentialKeyFmt, credential.Email), userCredentialUserIdKey), 10, 64)
 	require.Nil(t, err)
-	require.Equal(t, int64(id), userId)
+	require.Equal(t, userId, int64(id))
 }
 
 func TestGivenNonExistingUserCredentialWhenRedigoUserCredentialDaoAuthenticateThenReturnError(t *testing.T) {
@@ -86,5 +86,5 @@ func TestGivenUserCredentialWithWrongPasswordWhenRedigoUserCredentialDaoAuthenti
 	fakeCredential.Password = "INCORRECT"
 	dao := NewRedigoUserCredentialDao(pool)
 	_, err := dao.Authenticate(fakeCredential)
-	require.Equal(t, err, ErrPasswordMismatch)
+	require.Equal(t, ErrPasswordMismatch, err)
 }

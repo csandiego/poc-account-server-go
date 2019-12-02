@@ -10,5 +10,5 @@ func TestGivenUserCredentialWhenDefaultAuthenticationServiceAuthenticateThenHash
 	hasher := testPasswordHasher{"HASH"}
 	service := NewDefaultAuthenticationService(&dao, &hasher)
 	service.Authenticate(credential)
-	require.Equal(t, dao.authenticateCredential.Password, hasher.hash)
+	require.Equal(t, hasher.hash, dao.authenticateCredential.Password)
 }

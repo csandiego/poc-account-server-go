@@ -26,5 +26,5 @@ func TestGivenValidUserCredentialWhenDefaultUserRegistrationServiceRegisterThenN
 	hasher := testPasswordHasher{"HASH"}
 	service := NewDefaultUserRegistrationService(&dao, &hasher)
 	service.Register(credential)
-	require.Equal(t, dao.createCredential.Password, hasher.hash)
+	require.Equal(t, hasher.hash, dao.createCredential.Password)
 }
