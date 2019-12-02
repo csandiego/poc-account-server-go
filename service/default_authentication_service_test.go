@@ -5,10 +5,10 @@ import (
 	"testing"
 )
 
-func TestGivenUserCredentialWhenAuthenticationServiceAuthenticateThenHashPassword(t *testing.T) {
+func TestGivenUserCredentialWhenDefaultAuthenticationServiceAuthenticateThenHashPassword(t *testing.T) {
 	dao := testUserCredentialDao{}
 	hasher := testPasswordHasher{"HASH"}
-	service := NewAuthenticationService(&dao, &hasher)
+	service := NewDefaultAuthenticationService(&dao, &hasher)
 	service.Authenticate(credential)
 	require.Equal(t, dao.authenticateCredential.Password, hasher.hash)
 }
