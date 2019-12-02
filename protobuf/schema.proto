@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+import "google/protobuf/empty.proto";
+
+package protobuf;
+
+message ValidationRequest {
+  string email = 1;
+}
+
+message ValidationResponse {
+  bool valid = 1;
+}
+
+message UserCredential {
+  string email = 1;
+  string password = 2;
+}
+
+message AuthenticationResponse {
+  int64 user_id = 1;
+}
+
+service UserRegistration {
+  rpc Validate(ValidationRequest) returns (ValidationResponse);
+  rpc Register(UserCredential) returns (google.protobuf.Empty);
+}
+
+service Authentication {
+  rpc Authenticate(UserCredential) returns (AuthenticationResponse);
+}

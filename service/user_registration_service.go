@@ -6,5 +6,5 @@ import (
 
 type UserRegistrationService interface {
 	Validate(string) (bool, error)
-	Registration(data.UserCredential) error
+	Register(data.UserCredential) error
 }

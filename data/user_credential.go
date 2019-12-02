@@ -1,6 +1,6 @@
 package data
 
 type UserCredential struct {
-        Email string
-        Password string
+	Email    string `json:"email"`
+	Password string `json:"password"`
 }
