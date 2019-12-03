@@ -16,9 +16,8 @@ func TestWhenAuthenticationServerAuthenticateThenCopyParameterFields(t *testing.
 }
 
 func TestWhenAuthenticationServerAuthenticateThenWrapResponse(t *testing.T) {
-	userId := 1
-	service := testAuthenticationService{authenticateUserId: userId}
+	service := testAuthenticationService{authenticateUserId: 1}
 	server := NewAuthenticationServer(&service)
 	response, _ := server.Authenticate(context.Background(), &pb.UserCredential{})
-	require.Equal(t, int64(userId), response.UserId)
+	require.Equal(t, int64(service.authenticateUserId), response.UserId)
 }

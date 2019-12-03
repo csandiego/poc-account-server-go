@@ -15,11 +15,10 @@ func TestWhenUserRegistrationServerValidateThenExtractEmail(t *testing.T) {
 }
 
 func TestWhenUserRegistrationServerAuthenticateThenWrapResponse(t *testing.T) {
-	valid := true
-	service := testUserRegistrationService{validateResult: valid}
+	service := testUserRegistrationService{validateResult: true}
 	server := NewUserRegistrationServer(&service)
 	response, _ := server.Validate(context.Background(), &pb.ValidationRequest{})
-	require.Equal(t, valid, response.Valid)
+	require.Equal(t, service.validateResult, response.Valid)
 }
 
 func TestWhenUserRegistrationServerRegisterThenCopyParameterFields(t *testing.T) {
