@@ -7,7 +7,6 @@ import (
 	context "context"
 	fmt "fmt"
 	proto "github.com/golang/protobuf/proto"
-	empty "github.com/golang/protobuf/ptypes/empty"
 	grpc "google.golang.org/grpc"
 	codes "google.golang.org/grpc/codes"
 	status "google.golang.org/grpc/status"
@@ -25,8 +24,39 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.ProtoPackageIsVersion3 // please upgrade the proto package
 
+type Empty struct {
+	XXX_NoUnkeyedLiteral struct{} `json:"-"`
+	XXX_unrecognized     []byte   `json:"-"`
+	XXX_sizecache        int32    `json:"-"`
+}
+
+func (m *Empty) Reset()         { *m = Empty{} }
+func (m *Empty) String() string { return proto.CompactTextString(m) }
+func (*Empty) ProtoMessage()    {}
+func (*Empty) Descriptor() ([]byte, []int) {
+	return fileDescriptor_1c5fb4d8cc22d66a, []int{0}
+}
+
+func (m *Empty) XXX_Unmarshal(b []byte) error {
+	return xxx_messageInfo_Empty.Unmarshal(m, b)
+}
+func (m *Empty) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	return xxx_messageInfo_Empty.Marshal(b, m, deterministic)
+}
+func (m *Empty) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_Empty.Merge(m, src)
+}
+func (m *Empty) XXX_Size() int {
+	return xxx_messageInfo_Empty.Size(m)
+}
+func (m *Empty) XXX_DiscardUnknown() {
+	xxx_messageInfo_Empty.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_Empty proto.InternalMessageInfo
+
 type ValidationRequest struct {
-	Email                string   `protobuf:"bytes,1,opt,name=email,proto3" json:"email,omitempty"`
+	Email                *string  `protobuf:"bytes,1,req,name=email" json:"email,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
 	XXX_sizecache        int32    `json:"-"`
@@ -36,7 +66,7 @@ func (m *ValidationRequest) Reset()         { *m = ValidationRequest{} }
 func (m *ValidationRequest) String() string { return proto.CompactTextString(m) }
 func (*ValidationRequest) ProtoMessage()    {}
 func (*ValidationRequest) Descriptor() ([]byte, []int) {
-	return fileDescriptor_1c5fb4d8cc22d66a, []int{0}
+	return fileDescriptor_1c5fb4d8cc22d66a, []int{1}
 }
 
 func (m *ValidationRequest) XXX_Unmarshal(b []byte) error {
@@ -58,14 +88,14 @@ func (m *ValidationRequest) XXX_DiscardUnknown() {
 var xxx_messageInfo_ValidationRequest proto.InternalMessageInfo
 
 func (m *ValidationRequest) GetEmail() string {
-	if m != nil {
-		return m.Email
+	if m != nil && m.Email != nil {
+		return *m.Email
 	}
 	return ""
 }
 
 type ValidationResponse struct {
-	Valid                bool     `protobuf:"varint,1,opt,name=valid,proto3" json:"valid,omitempty"`
+	Valid                *bool    `protobuf:"varint,1,req,name=valid" json:"valid,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
 	XXX_sizecache        int32    `json:"-"`
@@ -75,7 +105,7 @@ func (m *ValidationResponse) Reset()         { *m = ValidationResponse{} }
 func (m *ValidationResponse) String() string { return proto.CompactTextString(m) }
 func (*ValidationResponse) ProtoMessage()    {}
 func (*ValidationResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_1c5fb4d8cc22d66a, []int{1}
+	return fileDescriptor_1c5fb4d8cc22d66a, []int{2}
 }
 
 func (m *ValidationResponse) XXX_Unmarshal(b []byte) error {
@@ -97,15 +127,15 @@ func (m *ValidationResponse) XXX_DiscardUnknown() {
 var xxx_messageInfo_ValidationResponse proto.InternalMessageInfo
 
 func (m *ValidationResponse) GetValid() bool {
-	if m != nil {
-		return m.Valid
+	if m != nil && m.Valid != nil {
+		return *m.Valid
 	}
 	return false
 }
 
 type UserCredential struct {
-	Email                string   `protobuf:"bytes,1,opt,name=email,proto3" json:"email,omitempty"`
-	Password             string   `protobuf:"bytes,2,opt,name=password,proto3" json:"password,omitempty"`
+	Email                *string  `protobuf:"bytes,1,req,name=email" json:"email,omitempty"`
+	Password             *string  `protobuf:"bytes,2,req,name=password" json:"password,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
 	XXX_sizecache        int32    `json:"-"`
@@ -115,7 +145,7 @@ func (m *UserCredential) Reset()         { *m = UserCredential{} }
 func (m *UserCredential) String() string { return proto.CompactTextString(m) }
 func (*UserCredential) ProtoMessage()    {}
 func (*UserCredential) Descriptor() ([]byte, []int) {
-	return fileDescriptor_1c5fb4d8cc22d66a, []int{2}
+	return fileDescriptor_1c5fb4d8cc22d66a, []int{3}
 }
 
 func (m *UserCredential) XXX_Unmarshal(b []byte) error {
@@ -137,21 +167,21 @@ func (m *UserCredential) XXX_DiscardUnknown() {
 var xxx_messageInfo_UserCredential proto.InternalMessageInfo
 
 func (m *UserCredential) GetEmail() string {
-	if m != nil {
-		return m.Email
+	if m != nil && m.Email != nil {
+		return *m.Email
 	}
 	return ""
 }
 
 func (m *UserCredential) GetPassword() string {
-	if m != nil {
-		return m.Password
+	if m != nil && m.Password != nil {
+		return *m.Password
 	}
 	return ""
 }
 
 type AuthenticationResponse struct {
-	UserId               int64    `protobuf:"varint,1,opt,name=user_id,json=userId,proto3" json:"user_id,omitempty"`
+	UserId               *int64   `protobuf:"varint,1,req,name=user_id,json=userId" json:"user_id,omitempty"`
 	XXX_NoUnkeyedLiteral struct{} `json:"-"`
 	XXX_unrecognized     []byte   `json:"-"`
 	XXX_sizecache        int32    `json:"-"`
@@ -161,7 +191,7 @@ func (m *AuthenticationResponse) Reset()         { *m = AuthenticationResponse{}
 func (m *AuthenticationResponse) String() string { return proto.CompactTextString(m) }
 func (*AuthenticationResponse) ProtoMessage()    {}
 func (*AuthenticationResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_1c5fb4d8cc22d66a, []int{3}
+	return fileDescriptor_1c5fb4d8cc22d66a, []int{4}
 }
 
 func (m *AuthenticationResponse) XXX_Unmarshal(b []byte) error {
@@ -183,13 +213,14 @@ func (m *AuthenticationResponse) XXX_DiscardUnknown() {
 var xxx_messageInfo_AuthenticationResponse proto.InternalMessageInfo
 
 func (m *AuthenticationResponse) GetUserId() int64 {
-	if m != nil {
-		return m.UserId
+	if m != nil && m.UserId != nil {
+		return *m.UserId
 	}
 	return 0
 }
 
 func init() {
+	proto.RegisterType((*Empty)(nil), "protobuf.Empty")
 	proto.RegisterType((*ValidationRequest)(nil), "protobuf.ValidationRequest")
 	proto.RegisterType((*ValidationResponse)(nil), "protobuf.ValidationResponse")
 	proto.RegisterType((*UserCredential)(nil), "protobuf.UserCredential")
@@ -199,25 +230,26 @@ func init() {
 func init() { proto.RegisterFile("schema.proto", fileDescriptor_1c5fb4d8cc22d66a) }
 
 var fileDescriptor_1c5fb4d8cc22d66a = []byte{
-	// 277 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x7c, 0x90, 0xc1, 0x4b, 0xc3, 0x30,
-	0x14, 0xc6, 0xa9, 0xe2, 0x8c, 0x8f, 0x31, 0x34, 0xc8, 0x2c, 0x9d, 0x87, 0xd1, 0x93, 0x7a, 0xe8,
-	0x70, 0x5e, 0xbd, 0xa8, 0xec, 0xa0, 0xc7, 0x80, 0x9e, 0x04, 0xc9, 0xd6, 0x67, 0x17, 0x68, 0x9b,
-	0x9a, 0xa4, 0x8a, 0x7f, 0x89, 0xff, 0xae, 0x24, 0xe9, 0xec, 0x8a, 0x65, 0xa7, 0xf0, 0xbd, 0xf7,
-	0x7b, 0xef, 0xcb, 0xfb, 0x60, 0xa8, 0x57, 0x6b, 0x2c, 0x78, 0x52, 0x29, 0x69, 0x24, 0x25, 0xee,
-	0x59, 0xd6, 0xef, 0xd1, 0x24, 0x93, 0x32, 0xcb, 0x71, 0xb6, 0x29, 0xcc, 0xb0, 0xa8, 0xcc, 0xb7,
-	0xc7, 0xe2, 0x4b, 0x38, 0x79, 0xe1, 0xb9, 0x48, 0xb9, 0x11, 0xb2, 0x64, 0xf8, 0x51, 0xa3, 0x36,
-	0xf4, 0x14, 0x0e, 0xb0, 0xe0, 0x22, 0x0f, 0x83, 0x69, 0x70, 0x71, 0xc4, 0xbc, 0x88, 0xaf, 0x80,
-	0x6e, 0xa3, 0xba, 0x92, 0xa5, 0x46, 0xcb, 0x7e, 0xda, 0xaa, 0x63, 0x09, 0xf3, 0x22, 0xbe, 0x87,
-	0xd1, 0xb3, 0x46, 0xf5, 0xa0, 0x30, 0xc5, 0xd2, 0x08, 0x9e, 0xf7, 0xef, 0xa4, 0x11, 0x90, 0x8a,
-	0x6b, 0xfd, 0x25, 0x55, 0x1a, 0xee, 0xb9, 0xc6, 0x9f, 0x8e, 0xaf, 0x61, 0x7c, 0x57, 0x9b, 0xb5,
-	0x9d, 0x5f, 0x75, 0x3d, 0xcf, 0xe0, 0xb0, 0xd6, 0xa8, 0xde, 0x1a, 0xd7, 0x7d, 0x36, 0xb0, 0xf2,
-	0x31, 0x9d, 0xff, 0x04, 0x70, 0x6c, 0x7d, 0x19, 0x66, 0x42, 0x1b, 0xe5, 0xa6, 0xe8, 0x02, 0x48,
-	0xf3, 0x6f, 0xa4, 0x93, 0x64, 0x93, 0x42, 0xf2, 0xef, 0xec, 0xe8, 0xbc, 0xbf, 0xd9, 0x98, 0xde,
-	0x02, 0xf1, 0x6b, 0x51, 0xd1, 0xb0, 0x25, 0xbb, 0x67, 0x46, 0xe3, 0xc4, 0xa7, 0xdd, 0x02, 0x0b,
-	0x9b, 0xf6, 0xfc, 0x15, 0x46, 0xdd, 0x63, 0xe8, 0x13, 0x0c, 0xb7, 0x2a, 0xb8, 0x63, 0xe7, 0xb4,
-	0xed, 0xf4, 0x07, 0xb2, 0x1c, 0x38, 0xe0, 0xe6, 0x37, 0x00, 0x00, 0xff, 0xff, 0x0a, 0x9b, 0x12,
-	0x1e, 0x03, 0x02, 0x00, 0x00,
+	// 294 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x7c, 0x50, 0x4d, 0x4b, 0xc3, 0x40,
+	0x14, 0xa4, 0x95, 0xda, 0xf5, 0x51, 0xaa, 0x2e, 0xa2, 0x25, 0x7a, 0x28, 0x39, 0x55, 0x0f, 0x0b,
+	0x16, 0xf4, 0x6e, 0xa4, 0x07, 0x3d, 0x95, 0x80, 0x9e, 0x04, 0xd9, 0x6e, 0x9e, 0xc9, 0x42, 0x92,
+	0x8d, 0xfb, 0xa1, 0xf8, 0x2f, 0xfc, 0xc9, 0x92, 0x0f, 0x9b, 0x06, 0x83, 0xa7, 0x64, 0xde, 0xcc,
+	0x9b, 0xd9, 0x37, 0x30, 0x31, 0x22, 0xc1, 0x8c, 0xb3, 0x42, 0x2b, 0xab, 0x28, 0xa9, 0x3e, 0x1b,
+	0xf7, 0xe6, 0x8f, 0x61, 0xb4, 0xca, 0x0a, 0xfb, 0xe5, 0x5f, 0xc2, 0xf1, 0x33, 0x4f, 0x65, 0xc4,
+	0xad, 0x54, 0x79, 0x88, 0xef, 0x0e, 0x8d, 0xa5, 0x27, 0x30, 0xc2, 0x8c, 0xcb, 0x74, 0x36, 0x98,
+	0x0f, 0x17, 0x07, 0x61, 0x0d, 0xfc, 0x2b, 0xa0, 0xbb, 0x52, 0x53, 0xa8, 0xdc, 0x60, 0xa9, 0xfd,
+	0x28, 0xa7, 0x95, 0x96, 0x84, 0x35, 0xf0, 0x03, 0x98, 0x3e, 0x19, 0xd4, 0xf7, 0x1a, 0x23, 0xcc,
+	0xad, 0xe4, 0x69, 0xbf, 0x27, 0xf5, 0x80, 0x14, 0xdc, 0x98, 0x4f, 0xa5, 0xa3, 0xd9, 0xb0, 0x22,
+	0xb6, 0xd8, 0xbf, 0x86, 0xd3, 0x3b, 0x67, 0x93, 0x72, 0x5f, 0x74, 0x33, 0xcf, 0x60, 0xec, 0x0c,
+	0xea, 0xd7, 0x26, 0x75, 0x2f, 0xdc, 0x2f, 0xe1, 0x43, 0xb4, 0xfc, 0x1e, 0xc0, 0x51, 0x99, 0x1b,
+	0x62, 0x2c, 0x8d, 0xd5, 0xd5, 0x16, 0x5d, 0x01, 0x69, 0xde, 0x8d, 0xf4, 0x9c, 0xfd, 0x56, 0xc0,
+	0xfe, 0x9c, 0xed, 0x5d, 0xf4, 0x93, 0x4d, 0xe8, 0x0d, 0x90, 0xda, 0x16, 0x35, 0x9d, 0xb5, 0xca,
+	0xee, 0x99, 0xde, 0x61, 0xcb, 0x54, 0x05, 0x2f, 0x5f, 0x60, 0xda, 0xbd, 0x82, 0x3e, 0xc2, 0x64,
+	0x67, 0x82, 0xff, 0x98, 0xcd, 0x5b, 0xa6, 0xbf, 0x89, 0xe0, 0x16, 0x16, 0x42, 0x65, 0x2c, 0x96,
+	0x36, 0x71, 0x1b, 0x26, 0x0c, 0xcf, 0x23, 0x89, 0xb1, 0x62, 0x85, 0x12, 0x5c, 0x08, 0xe5, 0x72,
+	0xbb, 0xb5, 0x08, 0xc8, 0xba, 0xf9, 0x5b, 0x0f, 0x7e, 0x02, 0x00, 0x00, 0xff, 0xff, 0x77, 0xfb,
+	0x9a, 0x6b, 0x18, 0x02, 0x00, 0x00,
 }
 
 // Reference imports to suppress errors if they are not otherwise used.
@@ -233,7 +265,7 @@ const _ = grpc.SupportPackageIsVersion4
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://godoc.org/google.golang.org/grpc#ClientConn.NewStream.
 type UserRegistrationClient interface {
 	Validate(ctx context.Context, in *ValidationRequest, opts ...grpc.CallOption) (*ValidationResponse, error)
-	Register(ctx context.Context, in *UserCredential, opts ...grpc.CallOption) (*empty.Empty, error)
+	Register(ctx context.Context, in *UserCredential, opts ...grpc.CallOption) (*Empty, error)
 }
 
 type userRegistrationClient struct {
@@ -253,8 +285,8 @@ func (c *userRegistrationClient) Validate(ctx context.Context, in *ValidationReq
 	return out, nil
 }
 
-func (c *userRegistrationClient) Register(ctx context.Context, in *UserCredential, opts ...grpc.CallOption) (*empty.Empty, error) {
-	out := new(empty.Empty)
+func (c *userRegistrationClient) Register(ctx context.Context, in *UserCredential, opts ...grpc.CallOption) (*Empty, error) {
+	out := new(Empty)
 	err := c.cc.Invoke(ctx, "/protobuf.UserRegistration/Register", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -265,7 +297,7 @@ func (c *userRegistrationClient) Register(ctx context.Context, in *UserCredentia
 // UserRegistrationServer is the server API for UserRegistration service.
 type UserRegistrationServer interface {
 	Validate(context.Context, *ValidationRequest) (*ValidationResponse, error)
-	Register(context.Context, *UserCredential) (*empty.Empty, error)
+	Register(context.Context, *UserCredential) (*Empty, error)
 }
 
 // UnimplementedUserRegistrationServer can be embedded to have forward compatible implementations.
@@ -275,7 +307,7 @@ type UnimplementedUserRegistrationServer struct {
 func (*UnimplementedUserRegistrationServer) Validate(ctx context.Context, req *ValidationRequest) (*ValidationResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Validate not implemented")
 }
-func (*UnimplementedUserRegistrationServer) Register(ctx context.Context, req *UserCredential) (*empty.Empty, error) {
+func (*UnimplementedUserRegistrationServer) Register(ctx context.Context, req *UserCredential) (*Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Register not implemented")
 }
 

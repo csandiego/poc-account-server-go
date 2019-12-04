@@ -20,5 +20,6 @@ func (server *AuthenticationServer) Authenticate(ctx context.Context, req *pb.Us
 	credential := data.UserCredential{}
 	fromMessage(req, &credential)
 	userId, err := server.service.Authenticate(credential)
-	return &pb.AuthenticationResponse{UserId: int64(userId)}, err
+	userId64 := int64(userId)
+	return &pb.AuthenticationResponse{UserId: &userId64}, err
 }
