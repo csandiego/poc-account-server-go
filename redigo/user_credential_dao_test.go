@@ -66,17 +66,18 @@ func TestGivenValidUserCredentialWhenRedigoUserCredentialDaoAuthenticateThenRetu
 	require.Equal(t, userId, int64(id))
 }
 
-func TestGivenNonExistingUserCredentialWhenRedigoUserCredentialDaoAuthenticateThenReturnError(t *testing.T) {
+func TestGivenNonExistingUserCredentialWhenRedigoUserCredentialDaoAuthenticateThenReturnZero(t *testing.T) {
 	r := startRedis(t)
 	defer r.Close()
 	pool := createPool(r)
 	defer pool.Close()
 	dao := NewRedigoUserCredentialDao(pool)
-	_, err := dao.Authenticate(credential)
-	require.NotNil(t, err)
+	id, err := dao.Authenticate(credential)
+	require.Nil(t, err)
+	require.Equal(t, 0, id)
 }
 
-func TestGivenUserCredentialWithWrongPasswordWhenRedigoUserCredentialDaoAuthenticateThenReturnError(t *testing.T) {
+func TestGivenUserCredentialWithWrongPasswordWhenRedigoUserCredentialDaoAuthenticateThenReturnZero(t *testing.T) {
 	r := startRedis(t)
 	defer r.Close()
 	pool := createPool(r)
@@ -85,6 +86,7 @@ func TestGivenUserCredentialWithWrongPasswordWhenRedigoUserCredentialDaoAuthenti
 	fakeCredential := credential
 	fakeCredential.Password = "INCORRECT"
 	dao := NewRedigoUserCredentialDao(pool)
-	_, err := dao.Authenticate(fakeCredential)
-	require.Equal(t, ErrPasswordMismatch, err)
+	id, err := dao.Authenticate(fakeCredential)
+	require.Nil(t, err)
+	require.Equal(t, 0, id)
 }

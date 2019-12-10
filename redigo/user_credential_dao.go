@@ -1,7 +1,6 @@
 package redigo
 
 import (
-	"errors"
 	"fmt"
 	"github.com/csandiego/poc-account-server/data"
 	"github.com/gomodule/redigo/redis"
@@ -12,10 +11,6 @@ const (
 	userCredentialKeyFmt      = "user_credential:%s"
 	userCredentialPasswordKey = "password"
 	userCredentialUserIdKey   = "user_id"
-)
-
-var (
-	ErrPasswordMismatch = errors.New("Passwords do not match")
 )
 
 type RedigoUserCredentialDao struct {
@@ -61,7 +56,7 @@ func (dao *RedigoUserCredentialDao) Authenticate(credential data.UserCredential)
 		return 0, err
 	}
 	if credential.Password != holder.Password {
-		return 0, ErrPasswordMismatch
+		return 0, nil
 	}
 	return holder.UserId, nil
 }
