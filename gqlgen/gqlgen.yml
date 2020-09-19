@@ -1,0 +1,8 @@
+models:
+  UserProfile:
+    model: github.com/csandiego/poc-account-server/data.UserProfile
+
+resolver:
+  filename: resolver.go
+  type: Resolver
+

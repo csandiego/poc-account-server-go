@@ -1,0 +1,9 @@
+type UserProfile {
+  userId: Int!
+  firstName: String!
+  lastName: String!
+}
+
+type Query {
+  userProfile(userId: Int!): UserProfile!
+}
